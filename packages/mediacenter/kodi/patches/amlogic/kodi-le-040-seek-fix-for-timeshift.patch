@@ -49,15 +49,6 @@
        }
        else if (m_pDemuxer)
        {
-@@ -2700,7 +2700,7 @@
-         else
-         {
-           CloseStream(m_CurrentVideo, false);
--          CLog::Log(LOGDEBUG, "VideoPlayer: Reopen Videostream: %d id:%d", st.demuxerId, st.id); 
-+          CLog::Log(LOGDEBUG, LOGVIDEO, "VideoPlayer: Reopen Videostream: %lld id:%d", st.demuxerId, st.id); 
-           OpenStream(m_CurrentVideo, st.demuxerId, st.id, st.source);
-           CDVDMsgPlayerSeek::CMode mode;
-           mode.time = (int)GetTime();
 @@ -3021,7 +3026,8 @@
    if(m_caching == state)
      return;
@@ -91,16 +82,4 @@
      m_displayTime = 0;
      m_dtsAtDisplayTime = DVD_NOPTS_VALUE;
      return m_IDemux->SeekTime(timems, backwards, startpts);
---- a/xbmc/cores/VideoPlayer/DVDInputStreams/DVDInputStreamPVRManager.cpp	2017-10-24 23:17:48.687512000 +0200
-+++ b/xbmc/cores/VideoPlayer/DVDInputStreams/DVDInputStreamPVRManager.cpp	2017-10-25 10:40:35.867782821 +0200
-@@ -558,6 +558,8 @@
-   PVR_CLIENT client;
-   if (g_PVRClients->GetPlayingClient(client))
-   {
-+    bool rtn = client->SeekTime(timems, backwards, startpts);
-+    CLog::Log(LOGDEBUG, LOGVIDEO, "CDVDInputStreamPVRManager::SeekTime: %0.3f startpts:%0.3f backwards:%d rtn:%d", timems / 1000.0, *startpts / 1000000.0, backwards, rtn);
-+    return rtn;
--    return client->SeekTime(timems, backwards, startpts);
-   }
-   return false;
 --

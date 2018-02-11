@@ -39,21 +39,19 @@ index f6f8353..d1df5af 100644
    m_vecItems = new CFileItemList;
  }
  
-diff --git a/xbmc/video/dialogs/GUIDialogAudioSubtitleSettings.cpp b/xbmc/video/dialogs/GUIDialogAudioSubtitleSettings.cpp
-index 720c55d..d2cf88e 100644
---- a/xbmc/video/dialogs/GUIDialogAudioSubtitleSettings.cpp
-+++ b/xbmc/video/dialogs/GUIDialogAudioSubtitleSettings.cpp
-@@ -69,7 +69,9 @@ CGUIDialogAudioSubtitleSettings::CGUIDialogAudioSubtitleSettings()
-   : CGUIDialogSettingsManualBase(WINDOW_DIALOG_AUDIO_OSD_SETTINGS, "DialogSettings.xml"),
-     m_passthrough(false),
-     m_dspEnabled(false)
+--- a/xbmc/video/dialogs/GUIDialogSubtitleSettings.cpp
++++ b/xbmc/video/dialogs/GUIDialogSubtitleSettings.cpp
+@@ -58,7 +58,9 @@
+
+ CGUIDialogSubtitleSettings::CGUIDialogSubtitleSettings()
+   : CGUIDialogSettingsManualBase(WINDOW_DIALOG_SUBTITLE_OSD_SETTINGS, "DialogSettings.xml")
 -{ }
 +{
 +  m_loadType = LOAD_ON_GUI_INIT;
 +}
- 
- CGUIDialogAudioSubtitleSettings::~CGUIDialogAudioSubtitleSettings()
- { }
+
+ CGUIDialogSubtitleSettings::~CGUIDialogSubtitleSettings() = default;
+
 diff --git a/xbmc/video/dialogs/GUIDialogSubtitles.cpp b/xbmc/video/dialogs/GUIDialogSubtitles.cpp
 index 09ac499..72da62e 100644
 --- a/xbmc/video/dialogs/GUIDialogSubtitles.cpp
