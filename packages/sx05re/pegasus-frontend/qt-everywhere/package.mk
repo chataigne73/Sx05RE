@@ -88,7 +88,6 @@ PKG_CONFIGURE_OPTS_TARGET="-prefix /usr \
 			-no-feature-validator \
 			-no-feature-vnc \
 			-no-feature-widgets \
-			-no-feature-xml \
 			-skip qtxmlpatterns \
                         -skip qtx11extras \
                         -skip qtwinextras \
