@@ -109,3 +109,9 @@ echo 8 > /proc/irq/62/smp_affinity   # dwc_otg, dwc_otg_hcd:usb2, dwc_otg_pcd
 echo 4 > /sys/module/amvdec_h264/parameters/dec_control
 
 echo 1 > /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy
+
+# Disable noise reduction
+echo 0 > /sys/module/di/parameters/nr2_en
+
+# Disable deinterlacing
+echo 1 > /sys/module/di/parameters/bypass_all

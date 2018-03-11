@@ -1,21 +1,19 @@
-From 947db4014165214f05f6c9885c12071825298d7d Mon Sep 17 00:00:00 2001
+From c2bb1d637fa39673a4444ce32d9eb84f515ef86d Mon Sep 17 00:00:00 2001
 From: Adam Green <greena88@gmail.com>
-Date: Fri, 23 Feb 2018 14:13:26 +0000
-Subject: [PATCH] kodi: add option to disable deinterlacing
+Date: Mon, 12 Mar 2018 08:19:31 +0000
+Subject: [PATCH] kodi: add options to enable deinterlacing, noise reduction
+ and set the colour space
 
-kodi: add option to set colour space
-
-kodi: add option to disable noise reduction
 ---
  .../resource.language.en_gb/resources/strings.po   | 71 +++++++++++++++++++++-
  system/settings/settings.xml                       | 27 ++++++++
  xbmc/settings/Settings.cpp                         |  3 +
- xbmc/settings/Settings.h                           |  4 ++
+ xbmc/settings/Settings.h                           |  3 +
  xbmc/windowing/amlogic/WinSystemAmlogic.cpp        | 21 +++++++
- 5 files changed, 123 insertions(+), 3 deletions(-)
+ 5 files changed, 122 insertions(+), 3 deletions(-)
 
 diff --git a/addons/resource.language.en_gb/resources/strings.po b/addons/resource.language.en_gb/resources/strings.po
-index d73e319fc0..78cd776ea0 100644
+index d374005..18e7cf1 100644
 --- a/addons/resource.language.en_gb/resources/strings.po
 +++ b/addons/resource.language.en_gb/resources/strings.po
 @@ -6213,7 +6213,22 @@ msgctxt "#13132"
@@ -25,7 +23,7 @@ index d73e319fc0..78cd776ea0 100644
 -#empty strings from id 13133 to 13139
 +#: unknown
 +msgctxt "#13133"
-+msgid "Disable deinterlacing"
++msgid "Enable deinterlacing"
 +msgstr ""
 +
 +#: unknown
@@ -35,14 +33,14 @@ index d73e319fc0..78cd776ea0 100644
 +
 +#: unknown
 +msgctxt "#13135"
-+msgid "Disable noise reduction"
++msgid "Enable noise reduction"
 +msgstr ""
 +
 +#empty strings from id 13136 to 13139
  
  #: xbmc/network/NetworkServices.cpp
  msgctxt "#13140"
-@@ -8091,7 +8106,12 @@ msgctxt "#14237"
+@@ -8094,7 +8109,12 @@ msgctxt "#14237"
  msgid "Music Library"
  msgstr ""
  
@@ -56,14 +54,14 @@ index d73e319fc0..78cd776ea0 100644
  
  #: system/settings/settings.xml
  msgctxt "#14240"
-@@ -19851,7 +19871,52 @@ msgctxt "#36461"
+@@ -19858,7 +19878,52 @@ msgctxt "#36461"
  msgid "Notification event describe regular processes and actions performed by the system or the user."
  msgstr ""
  
 -#empty strings from id 36462 to 36499
 +#: Description of display setting with label # 13133
 +msgctxt "#36462"
-+msgid "Enable this to disable Amlogic deinterlacing. Fixes green / pink lines on S905W devices. Requires reboot."
++msgid "Enable Amlogic deinterlacing. May cause green / pink lines on S905W devices. Requires reboot."
 +msgstr ""
 +
 +#: Description of display setting with label # 13134
@@ -103,7 +101,7 @@ index d73e319fc0..78cd776ea0 100644
 +
 +#: Description of display setting with label # 13135
 +msgctxt "#36470"
-+msgid "Enable this to disable Amlogic noise reduction. Fixes ghost / smokey effect. Requires reboot."
++msgid "Enable Amlogic noise reduction. May cause ghost / smokey effect. Requires reboot."
 +msgstr ""
 +
 +#empty strings from id 36471 to 36499
@@ -111,7 +109,7 @@ index d73e319fc0..78cd776ea0 100644
  
  #. label of a setting for the stereoscopic 3D mode of the GUI that is/should be applied
 diff --git a/system/settings/settings.xml b/system/settings/settings.xml
-index fc252bd86d..e7547dbf50 100755
+index fc252bd..e7547db 100755
 --- a/system/settings/settings.xml
 +++ b/system/settings/settings.xml
 @@ -2436,6 +2436,33 @@
@@ -139,7 +137,7 @@ index fc252bd86d..e7547dbf50 100755
 +          </constraints>
 +          <control type="list" format="string" />
 +        </setting>
-+        <setting id="videoscreen.noisereduction" type="boolean" label="13136" help="36471">
++        <setting id="videoscreen.noisereduction" type="boolean" label="13135" help="36470">
 +          <level>1</level>
 +          <default>false</default>
 +          <control type="toggle" />
@@ -149,10 +147,10 @@ index fc252bd86d..e7547dbf50 100755
      <category id="audio" label="14221" help="36360">
        <group id="1" label="14250">
 diff --git a/xbmc/settings/Settings.cpp b/xbmc/settings/Settings.cpp
-index a7bb23f712..51bcb30fc1 100644
+index 9dd6355..eedfda1 100644
 --- a/xbmc/settings/Settings.cpp
 +++ b/xbmc/settings/Settings.cpp
-@@ -353,6 +353,9 @@ const std::string CSettings::SETTING_VIDEOSCREEN_GUICALIBRATION = "videoscreen.g
+@@ -354,6 +354,9 @@ const std::string CSettings::SETTING_VIDEOSCREEN_GUICALIBRATION = "videoscreen.g
  const std::string CSettings::SETTING_VIDEOSCREEN_TESTPATTERN = "videoscreen.testpattern";
  const std::string CSettings::SETTING_VIDEOSCREEN_LIMITEDRANGE = "videoscreen.limitedrange";
  const std::string CSettings::SETTING_VIDEOSCREEN_FRAMEPACKING = "videoscreen.framepacking";
@@ -163,22 +161,21 @@ index a7bb23f712..51bcb30fc1 100644
  const std::string CSettings::SETTING_AUDIOOUTPUT_CHANNELS = "audiooutput.channels";
  const std::string CSettings::SETTING_AUDIOOUTPUT_CONFIG = "audiooutput.config";
 diff --git a/xbmc/settings/Settings.h b/xbmc/settings/Settings.h
-index 6e3674d49d..dbdb7bb0fe 100644
+index a81e4a3..e7573e9 100644
 --- a/xbmc/settings/Settings.h
 +++ b/xbmc/settings/Settings.h
-@@ -307,6 +307,10 @@ public:
+@@ -308,6 +308,9 @@ public:
    static const std::string SETTING_VIDEOSCREEN_TESTPATTERN;
    static const std::string SETTING_VIDEOSCREEN_LIMITEDRANGE;
    static const std::string SETTING_VIDEOSCREEN_FRAMEPACKING;
 +  static const std::string SETTING_VIDEOSCREEN_DEINTERLACING;
 +  static const std::string SETTING_VIDEOSCREEN_COLOURSPACE;
-+  static const std::string SETTING_VIDEOSCREEN_FORCERGB;
 +  static const std::string SETTING_VIDEOSCREEN_NOISEREDUCTION;
    static const std::string SETTING_AUDIOOUTPUT_AUDIODEVICE;
    static const std::string SETTING_AUDIOOUTPUT_CHANNELS;
    static const std::string SETTING_AUDIOOUTPUT_CONFIG;
 diff --git a/xbmc/windowing/amlogic/WinSystemAmlogic.cpp b/xbmc/windowing/amlogic/WinSystemAmlogic.cpp
-index 42b6ff551e..3305763bcd 100644
+index 42b6ff5..40e1824 100644
 --- a/xbmc/windowing/amlogic/WinSystemAmlogic.cpp
 +++ b/xbmc/windowing/amlogic/WinSystemAmlogic.cpp
 @@ -92,6 +92,27 @@ CWinSystemAmlogic::~CWinSystemAmlogic()
@@ -189,8 +186,8 @@ index 42b6ff551e..3305763bcd 100644
 +
 +  if (s.GetBool(CSettings::SETTING_VIDEOSCREEN_DEINTERLACING))
 +  {
-+     CLog::Log(LOGDEBUG, "CWinSystemAmlogic::InitWindowSystem -- disabling deinterlacing");
-+     SysfsUtils::SetString("/sys/module/di/parameters/bypass_all", "1");
++     CLog::Log(LOGDEBUG, "CWinSystemAmlogic::InitWindowSystem -- enabling deinterlacing");
++     SysfsUtils::SetString("/sys/module/di/parameters/bypass_all", "0");
 +  }
 +
 +  std::string colourspace = s.GetString(CSettings::SETTING_VIDEOSCREEN_COLOURSPACE);
@@ -202,13 +199,13 @@ index 42b6ff551e..3305763bcd 100644
 +
 +  if (s.GetBool(CSettings::SETTING_VIDEOSCREEN_NOISEREDUCTION))
 +  {
-+     CLog::Log(LOGDEBUG, "CWinSystemAmlogic::InitWindowSystem -- disabling noise reduction");
-+     SysfsUtils::SetString("/sys/module/di/parameters/nr2_en", "0");
++     CLog::Log(LOGDEBUG, "CWinSystemAmlogic::InitWindowSystem -- enabling noise reduction");
++     SysfsUtils::SetString("/sys/module/di/parameters/nr2_en", "1");
 +  }
 +
    m_nativeDisplay = EGL_DEFAULT_DISPLAY;
  
    CDVDVideoCodecAmlogic::Register();
 -- 
-2.11.0
+2.7.4
 
