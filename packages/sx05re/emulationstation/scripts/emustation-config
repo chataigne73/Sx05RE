@@ -11,11 +11,13 @@ if [ ! -f "$BIOS_DIR/putbioshere" ]; then
     touch $BIOS_DIR/putbioshere
 fi
 
-if [ ! -d "$ROMS_DIR" ]; then
-    mkdir -p $ROMS_DIR/n64/
-    touch $ROMS_DIR/n64/dummy.z64
+if [ ! -f "$ROMS_DIR/n64/dummy.z64" ]; then
+	if [ ! -d "$ROMS_DIR" ]; then
+		mkdir -p $ROMS_DIR/n64/
+	fi
+	touch $ROMS_DIR/n64/dummy.z64
 fi
-
+	
 if [ ! -d "$CONFIG_DIR" ]; then
  mkdir -p $CONFIG_DIR
  cp -urf /usr/config/emulationstation/* $CONFIG_DIR/
