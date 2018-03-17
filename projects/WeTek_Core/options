@@ -139,3 +139,6 @@
 
   # kernel image name
     KERNEL_NAME="kernel.img"
+	
+  # OEM packages for OEM's (yes / no)
+    OEM_SUPPORT="yes"
