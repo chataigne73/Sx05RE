@@ -9,7 +9,6 @@
 	
 -	while (len>2)
 +	while (len>=0)
- {
-	if (path[len]=='\\' || path[len]=='/')
-		break;
-	
+ 	{
+		if (path[len]=='\\' || path[len]=='/')
+			break;
