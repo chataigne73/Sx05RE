@@ -1,6 +1,6 @@
 --- a/core/imgread/gdi.cpp	2018-03-22 22:55:45.000000000 +0000
 +++ b/core/imgread/gdi.cpp	2018-03-22 22:56:31.000000000 +0000
-@@ -36,9 +36,9 @@
+@@ -36,7 +36,7 @@
  	strncpy(path, file, sizeof(path));
  	path[sizeof(path) - 1] = '\0';
 	
@@ -10,5 +10,3 @@
 -	while (len>2)
 +	while (len>=0)
  	{
-		if (path[len]=='\\' || path[len]=='/')
-			break;
