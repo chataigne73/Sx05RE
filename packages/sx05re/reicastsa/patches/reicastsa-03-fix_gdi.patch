@@ -1,12 +1,23 @@
---- a/core/imgread/gdi.cpp	2018-03-22 22:55:45.000000000 +0000
-+++ b/core/imgread/gdi.cpp	2018-03-22 22:56:31.000000000 +0000
-@@ -36,7 +36,7 @@
+diff --git a/core/imgread/gdi.cpp b/core/imgread/gdi.cpp
+index 5eaf878..e1f650e 100644
+--- a/core/imgread/gdi.cpp
++++ b/core/imgread/gdi.cpp
+@@ -36,9 +36,9 @@ Disc* load_gdi(const char* file)
  	strncpy(path, file, sizeof(path));
  	path[sizeof(path) - 1] = '\0';
-	
+ 
 -	size_t len = strlen(path);
 +	ssize_t len = strlen(path);
-	
+ 
 -	while (len>2)
 +	while (len>=0)
  	{
+ 		if (path[len]=='\\' || path[len]=='/')
+ 			break;
+@@ -118,4 +118,4 @@ Disc* gdi_parse(const char* file)
+ 
+ void iso_term()
+ {
+-}
+\ No newline at end of file
++}
